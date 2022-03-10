@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
@@ -64,6 +65,7 @@ export default class EditPost extends Component {
     this.state = {
       currentPost: [],
       PostText: '',
+      inputError: '',
     };
   }
 
@@ -92,7 +94,7 @@ export default class EditPost extends Component {
       text: this.state.PostText,
     };
 
-    if (this.state.PostText != null) {
+    if (this.state.PostText != '') {
       return fetch(`http://localhost:3333/api/1.0.0/user/${id}/post/${this.state.currentPost.post_id}`, {
         method: 'PATCH',
         headers: {
@@ -116,7 +118,8 @@ export default class EditPost extends Component {
           Error(error);
         });
     }
-    throw new Error('Please make a change first');
+    this.setState({ inputError: 'Please Type Something before submitting' });
+    return null;
   };
 
   parsepost = async () => {
@@ -140,6 +143,7 @@ export default class EditPost extends Component {
             onChangeText={(PostText) => this.setState({ PostText })}
             defaultValue={this.state.currentPost.text}
           />
+          <Text style={{ color: 'red', alignSelf: 'center' }}>{this.state.inputError}</Text>
           <TouchableOpacity
             style={styles.button}
             onPress={() => this.updatePost()}

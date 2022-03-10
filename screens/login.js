@@ -64,6 +64,8 @@ export default class Login extends Component {
       StateEmail: '',
       StatePassword: '',
       isLoading: false,
+      passwordError: '',
+      emailError: '',
     };
   }
 
@@ -100,6 +102,22 @@ export default class Login extends Component {
       });
   };
 
+  checkEmail() {
+    if (this.state.StateEmail.toLowerCase().length <= 6) {
+      this.setState({ emailError: 'Email is not valid' });
+    } else {
+      this.setState({ emailError: '' });
+    }
+  }
+
+  checkPassword() {
+    if (this.state.StatePassword.length >= 5) {
+      this.setState({ passwordError: '' });
+    } else {
+      this.setState({ passwordError: 'Password should be atleast 6 characters' });
+    }
+  }
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -116,15 +134,15 @@ export default class Login extends Component {
             <Text style={styles.title}>𝓢𝓟𝓐𝓒𝓔𝓑𝓞𝓞𝓚</Text>
           </View>
           <View style={styles.body}>
-            <TextInput style={styles.textInput} placeholder="Email" onChangeText={(StateEmail) => this.setState({ StateEmail })} />
-            <TextInput style={styles.textInput} placeholder="Password" secureTextEntry onChangeText={(StatePassword) => { this.setState({ StatePassword }); }} value={this.state.StatePassword} />
+            <TextInput style={styles.textInput} placeholder="Email" onBlur={() => this.checkEmail()} onChangeText={(StateEmail) => this.setState({ StateEmail })} />
+            <Text style={{ color: 'red' }}>{this.state.emailError}</Text>
+            <TextInput style={styles.textInput} placeholder="Password" secureTextEntry onBlur={() => this.checkPassword()} onChangeText={(StatePassword) => { this.setState({ StatePassword }); this.checkPassword(); }} value={this.state.StatePassword} />
+            <Text style={{ color: 'red' }}>{this.state.passwordError}</Text>
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.login()}
             >
-              <Text style={styles.text}>
-                Login
-              </Text>
+              <Text style={styles.text}>Login</Text>
             </TouchableOpacity>
             <Text style={{ alignSelf: 'center', fontSize: 12 }}>OR</Text>
             <TouchableOpacity

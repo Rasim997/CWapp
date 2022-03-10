@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
@@ -64,6 +65,7 @@ export default class DraftEdit extends Component {
       draft: [],
       allDrafts: [],
       textBox: '',
+      inputError: '',
     };
   }
 
@@ -111,11 +113,12 @@ export default class DraftEdit extends Component {
           </Text>
           <View style={styles.postBox}>
             <TextInput style={{ flex: 1 }} defaultValue={this.state.draft.text} multiline="true" placeholder="Draft Text" onChangeText={(textBox) => this.setState({ textBox })} />
+            <Text style={{ color: 'red', alignSelf: 'center' }}>{this.state.inputError}</Text>
           </View>
 
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.updateDraft()}
+            onPress={() => { if (this.state.textBox != '') { this.updateDraft(); this.setState({ inputError: '' }); } else { this.setState({ inputError: 'Please Type Something before submitting' }); } }}
           >
             <Text style={styles.text}>
               Edit Draft

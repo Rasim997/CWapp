@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
@@ -182,10 +183,10 @@ export default class Search extends Component {
 
           />
           <View style={{ flexDirection: 'row-reverse', justifyContent: 'center', marginBottom: 8 }}>
-            <TouchableOpacity style={{ backgroundColor: 'white', marginHorizontal: 5, padding: 5, paddingHorizontal: 15, borderRadius: 5 }} onPress={() => { if (this.state.people.length > 0) { this.state.searchOffset += 9; } this.getData(this.state.searchOffset); }}>
+            <TouchableOpacity style={{ backgroundColor: 'rgba(156, 220, 221,0.5)', marginHorizontal: 5, padding: 5, paddingHorizontal: 15, borderRadius: 5 }} onPress={() => { if (this.state.people.length > 0) { this.state.searchOffset += 9; } this.getData(this.state.searchOffset); }}>
               <Text>Next Page</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{ backgroundColor: 'white', marginHorizontal: 5, padding: 5, borderRadius: 5 }} onPress={() => { if (this.state.searchOffset > 0) { this.state.searchOffset -= 9; } this.getData(this.state.searchOffset); }}>
+            <TouchableOpacity style={{ backgroundColor: 'rgba(156, 220, 221,0.5)', marginHorizontal: 5, padding: 5, borderRadius: 5 }} onPress={() => { if (this.state.searchOffset > 0) { this.state.searchOffset -= 9; } this.getData(this.state.searchOffset); }}>
               <Text>Previous Page</Text>
             </TouchableOpacity>
           </View>

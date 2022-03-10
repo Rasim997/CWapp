@@ -57,6 +57,7 @@ export default class Register extends Component {
       lName: '',
       stateEmail: '',
       statePassword: '',
+      passwordError: '',
 
     };
   }
@@ -99,6 +100,14 @@ export default class Register extends Component {
       });
   };
 
+  checkPassword() {
+    if (this.state.statePassword.length >= 5) {
+      this.setState({ passwordError: '' });
+    } else {
+      this.setState({ passwordError: 'Password should be atleast 6 characters' });
+    }
+  }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -106,10 +115,11 @@ export default class Register extends Component {
           <Text style={styles.title}>Register</Text>
         </View>
         <View style={styles.body}>
-          <TextInput style={styles.textInput} placeholder=" First Name" onChangeText={(fName) => this.setState({ fName })} />
-          <TextInput style={styles.textInput} placeholder=" Last Name" onChangeText={(lName) => this.setState({ lName })} />
-          <TextInput style={styles.textInput} placeholder=" stateEmail" onChangeText={(stateEmail) => this.setState({ stateEmail })} />
-          <TextInput style={styles.textInput} placeholder=" statePassword" onChangeText={(statePassword) => this.setState({ statePassword })} secureTextEntry />
+          <TextInput style={styles.textInput} maxLength={50} placeholder=" First Name" onChangeText={(fName) => this.setState({ fName })} />
+          <TextInput style={styles.textInput} maxLength={50} placeholder=" Last Name" onChangeText={(lName) => this.setState({ lName })} />
+          <TextInput style={styles.textInput} maxLength={62} placeholder=" stateEmail" onChangeText={(stateEmail) => this.setState({ stateEmail })} />
+          <TextInput style={styles.textInput} placeholder=" statePassword" onBlur={() => this.checkPassword()} onChangeText={(statePassword) => this.setState({ statePassword })} secureTextEntry />
+          <Text style={{ color: 'red' }}>{this.state.passwordError}</Text>
           <TouchableOpacity
             style={styles.button}
             onPress={() => this.register()}

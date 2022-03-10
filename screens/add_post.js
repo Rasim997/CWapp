@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
@@ -63,7 +64,8 @@ export default class AddPost extends Component {
     super(props);
 
     this.state = {
-      PostText: null,
+      PostText: '',
+      inputError: '',
     };
   }
 
@@ -85,7 +87,8 @@ export default class AddPost extends Component {
       text: PostText,
     };
 
-    if (PostText != null) {
+    if (PostText != '') {
+      this.setState({ inputError: '' });
       return fetch(`http://localhost:3333/api/1.0.0/user/ ${id} /post`, {
         method: 'POST',
         headers: {
@@ -109,7 +112,9 @@ export default class AddPost extends Component {
         .catch((error) => {
           throw new Error(error);
         });
-    } throw new Error('Please make a change first');
+    }
+    this.setState({ inputError: 'Please Type Something before submitting' });
+    return null;
   };
 
   saveDraft = async () => {
@@ -162,6 +167,7 @@ export default class AddPost extends Component {
             placeholder="Type your post here..."
             onChangeText={(PostText) => this.setState({ PostText })}
           />
+          <Text style={{ color: 'red', alignSelf: 'center' }}>{this.state.inputError}</Text>
           <TouchableOpacity style={styles.button} onPress={() => this.Post()}>
             <Text style={styles.text}>Post</Text>
           </TouchableOpacity>
