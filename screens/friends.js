@@ -4,7 +4,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, View, SafeAreaView, FlatList, TouchableOpacity,
+  StyleSheet, Text, View, SafeAreaView, FlatList, TouchableOpacity, ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -82,6 +82,7 @@ export default class Friends extends Component {
     this.state = {
       Ofr: [],
       friend_list: [],
+      isLoading: true,
     };
   }
 
@@ -196,6 +197,7 @@ export default class Friends extends Component {
       .then((responseJson) => {
         this.setState({
           friend_list: responseJson,
+          isLoading: false,
         });
       })
       .catch((error) => {
@@ -232,6 +234,13 @@ export default class Friends extends Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>

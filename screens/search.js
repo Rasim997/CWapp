@@ -4,7 +4,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, View, FlatList, SafeAreaView, TouchableOpacity, TextInput,
+  StyleSheet, Text, View, FlatList, SafeAreaView, TouchableOpacity, TextInput, ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -57,6 +57,7 @@ export default class Search extends Component {
       people: [],
       searchq: '',
       searchOffset: 0,
+      isLoading: true,
     };
   }
 
@@ -103,6 +104,7 @@ export default class Search extends Component {
       .then((responseJson) => {
         this.setState({
           people: responseJson,
+          isLoading: false,
         });
       })
       .catch((error) => {
@@ -157,6 +159,13 @@ export default class Search extends Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>

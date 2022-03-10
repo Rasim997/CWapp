@@ -10,6 +10,7 @@ import {
   View,
   FlatList,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -71,6 +72,7 @@ export default class Drafts extends Component {
     this.state = {
       draftData: [],
       userId: '',
+      isLoading: '',
     };
   }
 
@@ -96,7 +98,7 @@ export default class Drafts extends Component {
   getdata = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('@Drafts'));
     const id = await AsyncStorage.getItem('@session_id');
-    this.setState({ draftData: data, userId: id });
+    this.setState({ draftData: data, userId: id, isLoading: false });
   };
 
   removeDraft = async (draftId) => {
@@ -149,6 +151,13 @@ export default class Drafts extends Component {
   };
 
   dispDraft(post) {
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
     if (post.user_id == this.state.userId) {
       const time = new Date(post.time);
       return (

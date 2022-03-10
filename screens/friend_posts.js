@@ -4,7 +4,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
-  Text, View, StyleSheet, TouchableOpacity, SafeAreaView, FlatList,
+  Text, View, StyleSheet, TouchableOpacity, SafeAreaView, FlatList, ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -70,6 +70,7 @@ export default class FriendPosts extends Component {
     this.state = {
       post: [],
       myid: '',
+      isLoading: true,
     };
   }
 
@@ -119,6 +120,7 @@ export default class FriendPosts extends Component {
         this.setState({
           post: responseJson,
           myid: mId,
+          isLoading: false,
         });
       })
       .catch((error) => {
@@ -301,8 +303,14 @@ export default class FriendPosts extends Component {
 
   render() {
     const spacebooklogo = '𝓢𝓟𝓐𝓒𝓔𝓑𝓞𝓞𝓚';
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
     return (
-
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.logotext}>

@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -66,6 +67,7 @@ export default class AddPost extends Component {
     this.state = {
       PostText: '',
       inputError: '',
+      isLoading: true,
     };
   }
 
@@ -73,6 +75,7 @@ export default class AddPost extends Component {
     this.refresh = this.props.navigation.addListener('focus', () => {
       this.checkLoggedIn();
     });
+    this.setState({ isLoading: false });
   }
 
   componentWillUnmount() {
@@ -152,6 +155,13 @@ export default class AddPost extends Component {
   };
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>

@@ -3,7 +3,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, View, SafeAreaView, TouchableOpacity, TextInput,
+  StyleSheet, Text, View, SafeAreaView, TouchableOpacity, TextInput, ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -66,6 +66,7 @@ export default class DraftEdit extends Component {
       allDrafts: [],
       textBox: '',
       inputError: '',
+      isLoading: true,
     };
   }
 
@@ -90,7 +91,7 @@ export default class DraftEdit extends Component {
   getData = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('@draftPost'));
     const data1 = JSON.parse(await AsyncStorage.getItem('@Drafts'));
-    this.setState({ draft: data, allDrafts: data1 });
+    this.setState({ draft: data, allDrafts: data1, isLoading: false });
   };
 
   updateDraft = async () => {
@@ -101,6 +102,13 @@ export default class DraftEdit extends Component {
   };
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>

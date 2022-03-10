@@ -13,6 +13,7 @@ import {
   SafeAreaView,
   FlatList,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -77,6 +78,7 @@ export default class Home extends Component {
       post: [],
       photo: null,
       userId: '',
+      isLoading: true,
     };
   }
 
@@ -143,6 +145,7 @@ export default class Home extends Component {
         this.setState({
           post: responseJson,
           userId: id,
+          isLoading: false,
         });
       })
       .catch((error) => {
@@ -357,6 +360,13 @@ export default class Home extends Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
     const spacebooklogo = '𝓢𝓟𝓐𝓒𝓔𝓑𝓞𝓞𝓚';
     return (
       <SafeAreaView style={styles.container}>

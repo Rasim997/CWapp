@@ -2,7 +2,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, View, SafeAreaView, TouchableOpacity,
+  StyleSheet, Text, View, SafeAreaView, TouchableOpacity, ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -63,6 +63,7 @@ export default class SinglePost extends Component {
     this.state = {
       PostText: [],
       postUser: [],
+      isLoading: true,
     };
   }
 
@@ -113,6 +114,7 @@ export default class SinglePost extends Component {
         this.setState({
           PostText: responseJson,
           postUser: responseJson.author,
+          isLoading: false,
         });
       })
       .catch((error) => {
@@ -121,6 +123,13 @@ export default class SinglePost extends Component {
   };
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>

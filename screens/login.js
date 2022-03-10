@@ -8,12 +8,9 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  SafeAreaView,
   ActivityIndicator,
   ImageBackground,
 } from 'react-native';
-
-import Register from './register';
 import imBackground from '../assets/LoginBackground.gif';
 
 const styles = StyleSheet.create({
@@ -63,7 +60,6 @@ export default class Login extends Component {
     this.state = {
       StateEmail: '',
       StatePassword: '',
-      isLoading: false,
       passwordError: '',
       emailError: '',
     };
@@ -95,7 +91,6 @@ export default class Login extends Component {
         await AsyncStorage.setItem('@session_id', JSON.stringify(responseJson.id));
         await AsyncStorage.setItem('@session_token', responseJson.token);
         this.props.navigation.navigate('Main');
-        this.state.isLoading = false;
       })
       .catch((error) => {
         Error(error);
@@ -121,14 +116,14 @@ export default class Login extends Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View>
-          <ActivityIndicator />
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator size="large" />
         </View>
       );
     }
 
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <ImageBackground style={styles.container} source={imBackground} resizeMod="cover">
           <View style={styles.titleBox}>
             <Text style={styles.title}>𝓢𝓟𝓐𝓒𝓔𝓑𝓞𝓞𝓚</Text>
@@ -147,13 +142,13 @@ export default class Login extends Component {
             <Text style={{ alignSelf: 'center', fontSize: 12 }}>OR</Text>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => this.props.navigation.navigate(Register)}
+              onPress={() => this.props.navigation.navigate('Register')}
             >
               <Text style={styles.text}>Register</Text>
             </TouchableOpacity>
           </View>
         </ImageBackground>
-      </SafeAreaView>
+      </View>
     );
   }
 }

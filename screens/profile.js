@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -98,6 +99,7 @@ export default class Profile extends Component {
       newLName: '',
       newEmail: '',
       newPassword: '',
+      isLoading: true,
     };
   }
 
@@ -182,6 +184,7 @@ export default class Profile extends Component {
           userLName: responseJson.last_name,
           userEmail: responseJson.email,
           user_friendCount: responseJson.friend_count,
+          isLoading: false,
         });
       })
       .catch((error) => {
@@ -249,6 +252,13 @@ export default class Profile extends Component {
   };
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>

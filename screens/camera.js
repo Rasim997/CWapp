@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, View, TouchableOpacity,
+  StyleSheet, Text, View, TouchableOpacity, ActivityIndicator,
 } from 'react-native';
 import { Camera } from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -44,6 +44,7 @@ export default class TakePicture extends Component {
     this.state = {
       hasPermission: null,
       type: Camera.Constants.Type.back,
+      isLoading: true,
     };
   }
 
@@ -53,6 +54,7 @@ export default class TakePicture extends Component {
     this.refresh = this.props.navigation.addListener('focus', () => {
       this.checkLoggedIn();
     });
+    this.setState({ isLoading: false });
   }
 
   componentWillUnmount() {
@@ -100,6 +102,13 @@ export default class TakePicture extends Component {
   };
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
     if (this.state.hasPermission) {
       return (
         <View style={styles.container}>
