@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable object-curly-newline */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable react/prop-types */
@@ -123,12 +124,14 @@ export default class Search extends Component {
     )
       .then((response) => {
         if (response.status === 201) {
+          alert('Request Sent');
           return response.json();
         } if (response.status === 400) {
           throw new Error('BadRequest');
         } else if (response.status === 401) {
           throw new Error('Unauthorised');
         } else if (response.status === 403) {
+          alert('User Already A friend');
           throw new Error('User Already A friend');
         } else if (response.status === 404) {
           throw new Error('Not Found');

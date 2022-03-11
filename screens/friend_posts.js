@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/prop-types */
@@ -143,7 +144,8 @@ export default class FriendPosts extends Component {
           this.getPost();
         } else if (response.status === 401) {
           throw new Error('Unauthorised');
-        } else if (response.status === 403) {
+        } else if (response.status === 400) {
+          alert('You have already liked this post');
           throw new Error('Forbidden - You have already liked this post');
         } else if (response.status === 404) {
           throw new Error('Not Found');

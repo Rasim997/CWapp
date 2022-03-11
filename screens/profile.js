@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable lines-between-class-members */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
@@ -226,9 +228,13 @@ export default class Profile extends Component {
         Error(error);
       });
   };
+  saveDrafts = async (draft) => {
+    await AsyncStorage.setItem('@Drafts', draft);
+  };
 
   logout = async () => {
     const token = await AsyncStorage.getItem('@session_token');
+    const drafts = await AsyncStorage.getItem('@Drafts');
     await AsyncStorage.removeItem('@session_token');
     await AsyncStorage.clear();
     return fetch('http://localhost:3333/api/1.0.0/logout', {
@@ -239,6 +245,7 @@ export default class Profile extends Component {
     })
       .then((response) => {
         if (response.status === 200) {
+          this.saveDrafts(drafts);
           this.props.navigation.navigate('Login');
         } else if (response.status === 401) {
           throw new Error('Unauthorised');
