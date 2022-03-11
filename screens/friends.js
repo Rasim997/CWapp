@@ -248,7 +248,7 @@ export default class Friends extends Component {
         </View>
         <View style={styles.body}>
           <View style={styles.topBody}>
-            <Text style={styles.objectText}>Outstanding Friend Reuqests</Text>
+            <Text style={styles.objectText}>Outstanding Friend Requests</Text>
             <FlatList
               data={this.state.Ofr}
               renderItem={({ item }) => (this.person(item))}
