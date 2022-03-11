@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable no-alert */
 /* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
@@ -217,7 +218,7 @@ export default class FriendPosts extends Component {
     const lastName = post.author.last_name;
     const firstName = post.author.first_name;
 
-    if (this.state.myid === post.author.user_id) {
+    if (this.state.myid == post.author.user_id) {
       return (
         <View style={styles.postBody}>
           <View>
